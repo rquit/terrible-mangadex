@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 const axios = require("axios");
 
 // test manga id: 77bee52c-d2d6-44ad-a33a-1734c1fe696a
@@ -78,7 +78,7 @@ export default function Manga() {
 
             <h3>{mangaId} {mangaChapter} {mangaPage}</h3>
             <h4>{englishList}</h4>
-            <img src={mangaImage}></img>
+            <img src={mangaImage} alt=""></img>
         </div>
     )
 }
