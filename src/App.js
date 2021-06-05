@@ -22,7 +22,8 @@ function App() {
         <Switch>
 
           <Route exact path="/">
-            {cookies.userAuth ? <LoggedIn /> : <HomePage />}
+            {/* {cookies.userAuth ? <LoggedIn /> : <HomePage />} */}
+            <HomePage />
           </Route>
 
           <Route exact path="/manga">

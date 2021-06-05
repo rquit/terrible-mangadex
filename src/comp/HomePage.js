@@ -14,8 +14,8 @@ export default function HomePage() {
             password: password
         }).then((response) => {
             console.log("success");
-            setCookie("userAuth", response.data.token.session.toString(), { secure: true, sameSite: true, path: "/" });
-            setErrStat("success!");
+            setCookie("userAuth", response.data.token.session.toString(), { secure: true, sameSite: true, path: "/", naxAge: 3600 });
+            setErrStat(cookies.userAuth);
         }).catch(err => {
             console.error(err);
             setErrStat(`${err}`);
@@ -43,7 +43,7 @@ export default function HomePage() {
                 </form>
 
                 <h1>{username}</h1>
-                <h1>{errStat}</h1>
+                <p>{errStat}</p>
 
                 <a href="/manga">manga</a>
                 <br />

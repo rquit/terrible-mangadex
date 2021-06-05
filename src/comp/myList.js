@@ -7,6 +7,7 @@ export default function MyList() {
     const [mangaList, setMangaList] = useState([]);
 
     const authToken = cookies.userAuth;
+    let mangaArray = [];
 
     useEffect(() => {
         async function getFollowedManga() {
@@ -16,24 +17,32 @@ export default function MyList() {
                 }
             });
 
-            let mangaArray = [];
-
             for(let i = 0; i < response.data.results.length; i++) {
-                mangaArray.push(response.data.results[i].data.attributes.title.en.toString());
+                mangaArray.push({
+                    title: response.data.results[i].data.attributes.title.en,
+                    description: response.data.results[i].data.attributes.description.en
+                });
             }
-            setMangaList(mangaArray);
+            setMangaList(mangaArray)
         }
-
         getFollowedManga();
     }, [authToken])
 
     return (
         <div>
             <ul>
-                {mangaList.map(element => <li key={element}>{element}</li>)}
+                {mangaList && mangaList.map(manga => <MangaCard key={manga.title} manga={manga} />)}
             </ul>
         </div>   
     )
 }
 
-// async function nextFiftyManga()
+function MangaCard(props) {
+    const { title, description } = props.manga;
+    return (
+        <div>
+            <h3>{title}</h3>
+            <p>{description}</p>
+        </div>
+    )
+}
