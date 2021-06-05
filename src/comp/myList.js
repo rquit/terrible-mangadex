@@ -20,7 +20,7 @@ export default function MyList() {
             for(let i = 0; i < response.data.results.length; i++) {
                 mangaArray.push({
                     title: response.data.results[i].data.attributes.title.en,
-                    description: response.data.results[i].data.attributes.description.en
+                    description: response.data.results[i].data.attributes.description.en.toString().substring(0,300).concat("...")
                 });
             }
             setMangaList(mangaArray)
