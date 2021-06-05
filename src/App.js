@@ -4,30 +4,34 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import { CookiesProvider, useCookies } from 'react-cookie';
 
 import './App.css';
 import HomePage from "./comp/HomePage";
 import Manga from "./comp/Manga";
-import MyList from "./comp/myList";
+import MyList from "./comp/MyList";
 
 function App() {
+
   return (
-    <Router>
-      <Switch>
+    <CookiesProvider>
+      <Router>
+        <Switch>
 
-        <Route exact path="/">
-          <HomePage />
-        </Route>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
 
-        <Route exact path="/manga">
-          <Manga />
-        </Route>
+          <Route exact path="/manga">
+            <Manga />
+          </Route>
 
-        <Route exact path="/mylist">
-          <MyList />
-        </Route>
-      </Switch>
-    </Router>
+          <Route exact path="/mylist">
+            <MyList />
+          </Route>
+        </Switch>
+      </Router>
+    </CookiesProvider>
   );
 }
 

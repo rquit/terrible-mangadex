@@ -1,24 +1,32 @@
 import React, { useState } from 'react';
+import { useCookies } from 'react-cookie';
 const axios = require("axios");
 
 export default function HomePage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errStat, setErrStat] = useState("");
+    const [cookies, setCookie] = useCookies(["user"]);
+
+    async function postLogin(username, password) {
+        let response = await axios.post(`https://api.mangadex.org/auth/login`, {
+            username: username,
+            password: password
+        }).then((response) => {
+            console.log("success");
+            setCookie("user", response.data.token.session.toString(), { secure: true, sameSite: true, path: "/" });
+            setErrStat("success!");
+        }).catch(err => {
+            console.error(err);
+            setErrStat(`${err}`);
+        });
+    }
 
     async function submitLogin(e) {
         e.preventDefault();
 
-        await axios.post(`https://api.mangadex.org/auth/login`, {
-            username: username,
-            password: password
-        }).then(() => {
-            console.log("success!");
-            setErrStat("success!");
-        }).catch(err => {
-            console.error(err);
-            setErrStat("fail.");
-        });
+        postLogin(username, password);
+        // setCookie("authentication", response.token.session, { httpOnly: true, secure: true, sameSite: true })
     }
 
     return (
@@ -29,7 +37,7 @@ export default function HomePage() {
                     <label htmlFor="username" >Username: </label>
                     <input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
                     <label htmlFor="password" >Password: </label>
-                    <input id="password" type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
                     <button type="submit">Submit</button>
                 </form>
