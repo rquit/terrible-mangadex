@@ -6,7 +6,7 @@ export default function HomePage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errStat, setErrStat] = useState("");
-    const [cookies, setCookie] = useCookies(["user"]);
+    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
     async function postLogin(username, password) {
         let response = await axios.post(`https://api.mangadex.org/auth/login`, {
@@ -14,7 +14,7 @@ export default function HomePage() {
             password: password
         }).then((response) => {
             console.log("success");
-            setCookie("user", response.data.token.session.toString(), { secure: true, sameSite: true, path: "/" });
+            setCookie("userAuth", response.data.token.session.toString(), { secure: true, sameSite: true, path: "/" });
             setErrStat("success!");
         }).catch(err => {
             console.error(err);
@@ -26,13 +26,13 @@ export default function HomePage() {
         e.preventDefault();
 
         postLogin(username, password);
-        // setCookie("authentication", response.token.session, { httpOnly: true, secure: true, sameSite: true })
     }
 
     return (
         <div className="homepage">
             <header className="homepage-header">
                 <h1>Log Into MangaDex!</h1>
+                <button onClick={removeCookie(cookies.userAuth)}>Remove Cookie</button>
                 <form className="login-form" onSubmit={submitLogin}>
                     <label htmlFor="username" >Username: </label>
                     <input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />

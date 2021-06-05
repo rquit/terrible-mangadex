@@ -10,8 +10,11 @@ import './App.css';
 import HomePage from "./comp/HomePage";
 import Manga from "./comp/Manga";
 import MyList from "./comp/MyList";
+import NotLogged from "./comp/NotLoggedIn";
+import LoggedIn from "./comp/LoggedIn";
 
 function App() {
+  const [cookies] = useCookies(["user"]);
 
   return (
     <CookiesProvider>
@@ -19,7 +22,7 @@ function App() {
         <Switch>
 
           <Route exact path="/">
-            <HomePage />
+            {cookies.userAuth ? <LoggedIn /> : <HomePage />}
           </Route>
 
           <Route exact path="/manga">
@@ -27,7 +30,7 @@ function App() {
           </Route>
 
           <Route exact path="/mylist">
-            <MyList />
+            {cookies.userAuth ? <MyList /> : <NotLogged />}
           </Route>
         </Switch>
       </Router>

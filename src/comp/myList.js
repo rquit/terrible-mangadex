@@ -6,7 +6,7 @@ export default function MyList() {
     const [cookies] = useCookies(["user"]);
     const [mangaList, setMangaList] = useState([]);
 
-    const authToken = cookies.user;
+    const authToken = cookies.userAuth;
 
     useEffect(() => {
         async function getFollowedManga() {
